@@ -1,0 +1,20 @@
+#GridPane
+{
+    -fx-font-weight: bold;
+}
+.label
+{
+    -fx-text-fill: #00009C;
+}
+.button
+{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #6F0C11;
+    -fx-border-radius: 10%;
+    -fx-border-color: #6F0C11;
+}
+.button:hover
+{
+    -fx-background-color:linear-gradient(#ffffff, #6F0C11);
+    -fx-border-radius: 10%;
+}

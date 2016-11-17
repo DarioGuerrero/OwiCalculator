@@ -14,8 +14,11 @@ public class App extends Application {
 
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/ui.fxml"));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/css/view1.css").toExternalForm());
 
-        primaryStage.setScene(new Scene(root));
+
+        primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.getIcons().add(new Image("/graphics/calculator_icon.png"));
         primaryStage.setTitle("OwiCalculator");
