@@ -1,7 +1,13 @@
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+
 
 /**
  * @author Michlu
@@ -19,6 +25,21 @@ public class Controller {
 
     private Model model = new Model();
 
+    @FXML
+    public void processMenu(ActionEvent event){
+        String value = ((MenuItem)event.getSource()).getText();
+        if(value.equals("Copy")){
+            StringSelection stringSelection = new StringSelection(output.getText());
+            Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clpbrd.setContents(stringSelection, null);
+        }
+        if(value.equals("Exit")){
+            Platform.exit();
+            System.exit(0);
+        }
+        //TODO usprawnic trzy przyciski dotyczace zmiany layoutu (zmiana css)
+
+    }
     /**
      * Obsluga interfejsu klawiatury numerycznej
      * @param event przechwytuje nacisniecia przyciskow
@@ -35,7 +56,7 @@ public class Controller {
 
     /**
      * Obsluga interfejsu klawiatury operatorow matematycznych
-     * @param event rzechwytuje nacisniecia przyciskow
+     * @param event przechwytuje nacisniecia przyciskow
      */
     @FXML
     public void processOperator(ActionEvent event) {
@@ -128,4 +149,5 @@ public class Controller {
 //            start = true;
         }
     }
+
 }
