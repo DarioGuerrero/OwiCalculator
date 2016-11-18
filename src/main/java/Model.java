@@ -32,6 +32,8 @@ public class Model {
     }
     public double calculate(double number1, String operator) throws CalculationError {
         switch (operator){
+            case "%":
+                return number1 / 100;
             case "+/-":
                 return -number1;
             case "sqrt":

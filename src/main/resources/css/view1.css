@@ -16,9 +16,7 @@
 }
 
 /*MENU*/
-
 .menu-bar{
-
     -fx-background-color: linear-gradient(#818181, #383838);
 }
 
@@ -28,8 +26,6 @@
 .menu:hover{
     -fx-background-color: linear-gradient(#ff9933, #383838);
 }
-
-
 .context-menu
 {
     -fx-background-color: #383838;
@@ -48,10 +44,7 @@
     -fx-background-color: #ff9933;
 }
 
-
-
 /*PRZYCISKI*/
-
 .button
 {
     -fx-background-color: linear-gradient(#ff9933, #cc3300);

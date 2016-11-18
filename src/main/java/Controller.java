@@ -46,10 +46,7 @@ public class Controller {
      */
     @FXML
     public void processNumpad(ActionEvent event) {
-        if (start) {
-            output.setText("");
-            start = false;
-        }
+
         String value = ((Button) event.getSource()).getText();
         addText(value);
     }
@@ -104,18 +101,26 @@ public class Controller {
      * @param value przyjmuje String interfejsu operatorow matematycznych
      */
     public void addOperator(String value) {
+        // Kasowanie wyniku/wyswietlacza
+        if(value.equals("C")){
+            output.setText("");
+            operator = "";
+            number1 = 0;
+        }
         // Jezeli brak liczb, nic nie rob przy kliknieciu operoatorow
-        if(output.getText().length()==0){
+        if(output.getText().length()==0 ){
+            System.out.println("wroc");
             return;
         }
 
         // Jezeli operatorem nie jest znak =
         if(!"=".equals(value)){
+
             if(!operator.isEmpty()){
                 return;
             }
             // Funkcje operujace na jednej liczbie
-            else if(value.equals("sqrt") || value.equals("+/-")){
+            else if(value.equals("sqrt") || value.equals("+/-") || value.equals("%")){
                 operator = value;
                 try {
                     output.setText(String.valueOf(model.calculate(Double.parseDouble(output.getText()), operator)));
@@ -125,13 +130,7 @@ public class Controller {
                 }
                 operator = "";
             }
-            // Kasowanie wyniku/wyswietlacza
-            else if(value.equals("C")){
-                output.setText("");
-                operator = "";
-                number1 = 0;
-//                start = true;
-            }
+
             else {
                 operator = value;
                 number1 = Double.parseDouble(output.getText());
@@ -145,9 +144,8 @@ public class Controller {
             // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem - nastepnie wyswietla wynik
             output.setText(String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator)));
             operator = "";
-
-//            start = true;
         }
+
     }
 
 }
