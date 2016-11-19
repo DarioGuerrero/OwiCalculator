@@ -10,7 +10,7 @@ import java.awt.datatransfer.StringSelection;
 
 
 /**
- * @author Michlu
+ * @author Michal Nowinski
  * @sience 2016-11-16
  */
 public class Controller {
@@ -37,8 +37,6 @@ public class Controller {
             Platform.exit();
             System.exit(0);
         }
-        //TODO usprawnic trzy przyciski dotyczace zmiany layoutu (zmiana css)
-
     }
     /**
      * Obsluga interfejsu klawiatury numerycznej
@@ -46,7 +44,10 @@ public class Controller {
      */
     @FXML
     public void processNumpad(ActionEvent event) {
-
+        if(start){
+            output.setText("");
+            start = false;
+        }
         String value = ((Button) event.getSource()).getText();
         addText(value);
     }
@@ -106,10 +107,10 @@ public class Controller {
             output.setText("");
             operator = "";
             number1 = 0;
+            start = true;
         }
         // Jezeli brak liczb, nic nie rob przy kliknieciu operoatorow
         if(output.getText().length()==0 ){
-            System.out.println("wroc");
             return;
         }
 
@@ -134,7 +135,8 @@ public class Controller {
             else {
                 operator = value;
                 number1 = Double.parseDouble(output.getText());
-                output.setText("");
+                start = true;
+//                output.setText("");
             }
         }
         // Jezeli operatorem jest znak =
@@ -144,6 +146,7 @@ public class Controller {
             // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem - nastepnie wyswietla wynik
             output.setText(String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator)));
             operator = "";
+            start = true;
         }
 
     }

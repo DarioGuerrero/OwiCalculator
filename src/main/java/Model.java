@@ -1,5 +1,5 @@
 /**
- * @author Michlu
+ * @author Michal Nowinski
  * @sience 2016-11-16
  */
 public class Model {
@@ -40,7 +40,7 @@ public class Model {
                 if(number1<0) throw (new CalculationError("Nie mozna wyciagac pierwiastka kwadratowego z liczb ujemnych"));
                 return Math.sqrt(number1);
             case "1/x":
-                return number1 = 1/number1;
+                return 1/number1;
         }
 
         System.out.println("Nieznany operator - " + operator);
