@@ -30,6 +30,14 @@ public class Model {
         System.out.println("Nieznany operator - " + operator);
         return 0;
     }
+
+    /**
+     * Zmienia wartosc jednej liczby
+     * @param number1 liczba do przeksztalcenia
+     * @param operator operator matematyczny
+     * @return zwraca wynik
+     * @throws CalculationError blad obliczen matematycznych
+     */
     public double calculate(double number1, String operator) throws CalculationError {
         switch (operator){
             case "%":

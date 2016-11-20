@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -20,7 +19,6 @@ import java.io.File;
  */
 public class App extends Application {
 
-    private String pathStyleCssNew = "";
     private String pathStyleCss0 = "/css/view0.css";
     private String pathStyleCss1 = "/css/view1.css";
     private String pathStyleCss2 = "/css/view2.css";
@@ -61,7 +59,6 @@ public class App extends Application {
 
         Pane window1 = FXMLLoader.load(getClass().getResource("fxml/ui.fxml"));
         BorderPane window2 = new BorderPane(window1);
-        window2.setPrefHeight(222);
         window2.setTop(menuBar);
         Scene scene = new Scene(window2);
         scene.getStylesheets().add(getClass().getResource("/css/view1.css").toExternalForm());
@@ -91,6 +88,10 @@ public class App extends Application {
         showOther.setOnAction(e-> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Choose stylesheet");
+            // katalog otwierania (tam gdzie jest plik kalkulatora)
+            String currentDir = System.getProperty("user.dir") + File.separator;
+            File file = new File(currentDir);
+            fileChooser.setInitialDirectory(file);
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSS Stylesheets", "*.css"));
             File styleFile = fileChooser.showOpenDialog((Stage) primaryStage.getScene().getWindow());
 
@@ -101,7 +102,6 @@ public class App extends Application {
                 scene.getStylesheets().add("file:///" + this.stylesheet.getAbsolutePath().replace("\\", "/"));
             }
         });
-
         itemExit.setOnAction(e-> {
             Platform.exit();
             System.exit(0);
@@ -110,6 +110,7 @@ public class App extends Application {
             public void handle(ActionEvent t) {
                 // window about me
                 Stage stage = new Stage();
+                stage.initOwner(primaryStage);
                 VBox vbox = new VBox();
                 vbox.setPrefHeight(100);
                 vbox.setPrefWidth(150);
@@ -137,6 +138,8 @@ public class App extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
+        primaryStage.setWidth(206);
+        primaryStage.setHeight(252);
         primaryStage.getIcons().add(new Image("/graphics/calculator_icon.png"));
         primaryStage.setTitle("OwiCalculator");
         primaryStage.show();
