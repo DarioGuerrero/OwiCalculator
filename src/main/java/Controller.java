@@ -4,9 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+
+import static javafx.scene.input.KeyCode.*;
 
 
 /**
@@ -24,6 +29,11 @@ public class Controller {
     private final int MAX_OUTPUT_LENGTH = 19;
 
     private Model model = new Model();
+
+    // Zbiory przyjmowanych przyciskow
+    KeyCode[] numpadKey = {NUMPAD0, NUMPAD1, NUMPAD2, NUMPAD3, NUMPAD4, NUMPAD5, NUMPAD6, NUMPAD7, NUMPAD8, NUMPAD9, DECIMAL,
+            DIGIT0, DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9, PERIOD};
+    KeyCode[] operatorKey = {DIVIDE, MULTIPLY, SUBTRACT, ADD, MINUS, SLASH};
 
     @FXML
     public void processMenu(ActionEvent event){
@@ -44,10 +54,6 @@ public class Controller {
      */
     @FXML
     public void processNumpad(ActionEvent event) {
-        if(start){
-            output.setText("");
-            start = false;
-        }
         String value = ((Button) event.getSource()).getText();
         addText(value);
     }
@@ -67,6 +73,10 @@ public class Controller {
      * @param value przyjmuje String interfejsu klawiatury numerycznej
      */
     public void addText(String value){
+        if(start){
+            output.setText("");
+            start = false;
+        }
 
         // Aby nie przekorczyc dlugosci okna wyswietlania
         if(!(output.getText().length() == MAX_OUTPUT_LENGTH)){
@@ -74,7 +84,7 @@ public class Controller {
             // Jezeli pierwszym znakiem jest kropka (.) dodaj 0 przed znakiem
             if(output.getText().length() == 0 && value.equals("."))
                 output.setText("0");
-            // Jezeli w ciagu znakow jest kropka nie pozwol na dodanie kolejnej
+            // Jezeli w lancuchu znakow jest kropka nie pozwol na dodanie kolejnej
             if(value.equals(".")){
                 int dot = 1;
                 for(int i=0;i<output.getText().length();++i){
@@ -143,12 +153,65 @@ public class Controller {
         else {
             if(operator.isEmpty()) return;
 
-            // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem - nastepnie wyswietla wynik
-            output.setText(String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator)));
+            // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem
+            // String do sprawdzenia ostatnich cyfer
+            String checkString = String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator));
+
+            // Jezeli na koncu wyniku jest (.0) skasuj
+            if(checkString.charAt(checkString.length()-1)=='0' && checkString.charAt(checkString.length()-2)=='.'){
+                output.setText(checkString.substring(0, checkString.length()-2));
+            }
+            else{
+                output.setText(checkString);
+            }
             operator = "";
             start = true;
         }
 
     }
 
+    /**
+     * Obsluga klawiatury
+     * @param event przyjmuje parametr po nacisnieciu przycisku
+     */
+    @FXML
+    public void setOnKeyPressed(KeyEvent event){
+
+        String value = event.getText();
+
+
+        // Jezeli enter albo przycisk =, daj wynik
+        if(event.getCode() == ENTER || event.getCode() == EQUALS){
+            if(operator.isEmpty()) return;
+
+            // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem - nastepnie wyswietla wynik
+            output.setText(String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator)));
+            operator = "";
+            start = true;
+            return;
+        }
+        // Jezeli przycisk DEL kasuj
+        if(event.getCode() == DELETE){
+            output.setText("");
+            operator = "";
+            number1 = 0;
+            start = true;
+            return;
+        }
+        // dodaj wartosc jezeli przycisk sie zgadza z tabela numeryczna
+        for (KeyCode keyCode :numpadKey) {
+            if(event.getCode() == keyCode){
+                if(event.getCode() == DECIMAL) value = ".";
+                addText(value);
+                break;
+            }
+        }
+        // dodaj opertator jezeli przysick zgadza sie z tabela operatorow
+        for (KeyCode keyCode :operatorKey) {
+            if(keyCode == event.getCode()){
+                addOperator(value);
+                break;
+            }
+        }
+    }
 }
