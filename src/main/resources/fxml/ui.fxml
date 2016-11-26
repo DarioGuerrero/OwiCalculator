@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="GridPane" onKeyPressed="#setOnKeyPressed" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<GridPane fx:id="GridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#setOnKeyPressed" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
         <columnConstraints>
             <ColumnConstraints minWidth="40.0" prefWidth="40.0" />
             <ColumnConstraints minWidth="40.0" prefWidth="40.0" />
@@ -28,7 +28,7 @@
         </rowConstraints>
          <children>
             <Button fx:id="button_c" alignment="CENTER" mnemonicParsing="false" onAction="#processOperator" prefHeight="40.0" prefWidth="40.0" text="C" GridPane.columnIndex="4" />
-            <Button alignment="CENTER" onAction="#processNumpad"  prefHeight="40.0" prefWidth="40.0" text="7" GridPane.rowIndex="1" />
+            <Button alignment="CENTER" onAction="#processNumpad" prefHeight="40.0" prefWidth="40.0" text="7" GridPane.rowIndex="1" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#processNumpad" prefHeight="40.0" prefWidth="40.0" text="8" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#processNumpad" prefHeight="40.0" prefWidth="40.0" text="9" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#processOperator" prefHeight="40.0" prefWidth="40.0" text="/" GridPane.columnIndex="3" GridPane.rowIndex="1" />

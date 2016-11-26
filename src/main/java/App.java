@@ -34,13 +34,12 @@ public class App extends Application {
         RadioMenuItem showView2 = new RadioMenuItem("View Orange");
         RadioMenuItem showView3 = new RadioMenuItem("View White");
         RadioMenuItem showView4 = new RadioMenuItem("View Pink");
-        RadioMenuItem showOther = new RadioMenuItem("Open your css file...");
+        MenuItem showOther = new MenuItem("Open your css file...");
         showView2.setSelected(true);
         showView1.setToggleGroup(toggle);
         showView2.setToggleGroup(toggle);
         showView3.setToggleGroup(toggle);
         showView4.setToggleGroup(toggle);
-        showOther.setToggleGroup(toggle);
 
         MenuItem itemExit = new MenuItem("Exit");
         //Menu one
@@ -65,27 +64,24 @@ public class App extends Application {
 
         //Obsluga zdarzen menu
         showView1.setOnAction(e-> {
-            scene.getStylesheets().clear();
-            setUserAgentStylesheet(null);
-            scene.getStylesheets().add(getClass().getResource(pathStyleCss0).toExternalForm());
+            changeCSS(scene, pathStyleCss0);
         });
         showView2.setOnAction(e-> {
-            scene.getStylesheets().clear();
-            setUserAgentStylesheet(null);
-            scene.getStylesheets().add(getClass().getResource(pathStyleCss1).toExternalForm());
+            changeCSS(scene, pathStyleCss1);
         });
         showView3.setOnAction(e-> {
-            scene.getStylesheets().clear();
-            setUserAgentStylesheet(null);
-            scene.getStylesheets().add(getClass().getResource(pathStyleCss2).toExternalForm());
+            changeCSS(scene, pathStyleCss2);
         });
         showView4.setOnAction(e-> {
-            scene.getStylesheets().clear();
-            setUserAgentStylesheet(null);
-            scene.getStylesheets().add(getClass().getResource(pathStyleCss3).toExternalForm());
+            changeCSS(scene, pathStyleCss3);
         });
         // wskaz sciezke do wlasnego pliku css
         showOther.setOnAction(e-> {
+            // Jezeli radio menu sa zaznaczone, odznacz
+            if(toggle.getSelectedToggle() != null){
+                toggle.getSelectedToggle().setSelected(false);
+            }
+
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Choose stylesheet");
             // katalog otwierania (tam gdzie jest plik kalkulatora)
@@ -144,6 +140,17 @@ public class App extends Application {
         primaryStage.setTitle("OwiCalculator");
         primaryStage.show();
 
+    }
+
+    /**
+     * Metoda zmieniajaca styl CSS
+     * @param scene przyjmuje scene
+     * @param pathStyleCss przyjmuje string ze sciezka do pliku css
+     */
+    public void changeCSS(Scene scene, String pathStyleCss) {
+        scene.getStylesheets().clear();
+        setUserAgentStylesheet(null);
+        scene.getStylesheets().add(getClass().getResource(pathStyleCss).toExternalForm());
     }
 
     public static void main(String[] args) {

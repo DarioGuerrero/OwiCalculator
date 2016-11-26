@@ -114,10 +114,7 @@ public class Controller {
     public void addOperator(String value) {
         // Kasowanie wyniku/wyswietlacza
         if(value.equals("C")){
-            output.setText("");
-            operator = "";
-            number1 = 0;
-            start = true;
+            cleanOutput();
         }
         // Jezeli brak liczb, nic nie rob przy kliknieciu operoatorow
         if(output.getText().length()==0 ){
@@ -152,23 +149,11 @@ public class Controller {
         // Jezeli operatorem jest znak =
         else {
             if(operator.isEmpty()) return;
+            prepareOutput(); //wynik
 
-            // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem
-            // String do sprawdzenia ostatnich cyfer
-            String checkString = String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator));
-
-            // Jezeli na koncu wyniku jest (.0) skasuj
-            if(checkString.charAt(checkString.length()-1)=='0' && checkString.charAt(checkString.length()-2)=='.'){
-                output.setText(checkString.substring(0, checkString.length()-2));
-            }
-            else{
-                output.setText(checkString);
-            }
-            operator = "";
-            start = true;
         }
-
     }
+
 
     /**
      * Obsluga klawiatury
@@ -183,19 +168,12 @@ public class Controller {
         // Jezeli enter albo przycisk =, daj wynik
         if(event.getCode() == ENTER || event.getCode() == EQUALS){
             if(operator.isEmpty()) return;
-
-            // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem - nastepnie wyswietla wynik
-            output.setText(String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator)));
-            operator = "";
-            start = true;
+            prepareOutput(); //wynik
             return;
         }
         // Jezeli przycisk DEL kasuj
         if(event.getCode() == DELETE){
-            output.setText("");
-            operator = "";
-            number1 = 0;
-            start = true;
+            cleanOutput();
             return;
         }
         // dodaj wartosc jezeli przycisk sie zgadza z tabela numeryczna
@@ -213,5 +191,28 @@ public class Controller {
                 break;
             }
         }
+    }
+
+    public void cleanOutput() {
+        output.setText("");
+        operator = "";
+        number1 = 0;
+        start = true;
+    }
+
+    public void prepareOutput() {
+        // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem
+        // String do sprawdzenia ostatnich cyfer
+        String checkString = String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator));
+
+        // Jezeli na koncu wyniku jest (.0) skasuj
+        if(checkString.charAt(checkString.length()-1)=='0' && checkString.charAt(checkString.length()-2)=='.'){
+            output.setText(checkString.substring(0, checkString.length()-2));
+        }
+        else{
+            output.setText(checkString);
+        }
+        operator = "";
+        start = true;
     }
 }
