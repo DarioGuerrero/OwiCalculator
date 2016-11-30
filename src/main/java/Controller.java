@@ -124,24 +124,32 @@ public class Controller {
         // Jezeli operatorem nie jest znak =
         if(!"=".equals(value)){
 
-            if(!operator.isEmpty()){
-                return;
-            }
+//            if(number1>0 && !operator.isEmpty() && output.getText()==null){
+//                System.out.println("Return");
+//                return;
+//            }
             // Funkcje operujace na jednej liczbie
-            else if(value.equals("sqrt") || value.equals("+/-") || value.equals("%")){
-                operator = value;
+            if(value.equals("sqrt") || value.equals("+/-") || value.equals("%")){
                 try {
-                    output.setText(String.valueOf(model.calculate(Double.parseDouble(output.getText()), operator)));
+                    output.setText(String.valueOf(model.calculate(Double.parseDouble(output.getText()), value)));
                 } catch (CalculationError e) {
                     e.printStackTrace();
                     output.setText("ERR");
                 }
-                operator = "";
             }
 
             else {
                 operator = value;
-                number1 = Double.parseDouble(output.getText());
+                // Jezeli jest juz pierwsza liczba i podana druga, przyciskajac operator matematyczny - oblicza i podaje wynik, przypisuje go do liczby1
+                if(number1>0){
+                    output.setText(String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator)));
+                    number1 = Double.parseDouble(output.getText());
+                    start = true;
+                }
+                // jezeli to pierwsza liczba, przypisuje ja d number1
+                else{
+                    number1 = Double.parseDouble(output.getText());
+                }
                 start = true;
 //                output.setText("");
             }
@@ -203,6 +211,9 @@ public class Controller {
     public void prepareOutput() {
         // Pobiera pierwsza liczbe i przesyla druga wraz z operatorem
         // String do sprawdzenia ostatnich cyfer
+        System.out.println(operator);
+        System.out.println(number1);
+        System.out.println(output.getText());
         String checkString = String.valueOf(model.calculate(number1, Double.parseDouble(output.getText()), operator));
 
         // Jezeli na koncu wyniku jest (.0) skasuj
@@ -212,6 +223,7 @@ public class Controller {
         else{
             output.setText(checkString);
         }
+        number1 = 0;
         operator = "";
         start = true;
     }
